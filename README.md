@@ -189,3 +189,67 @@ YAO_API_ACCESS_KEY=123456
   console.log(models);
 </script>
 ```
+
+## use in bun
+
+```sh
+bun init
+
+bun install yao-app-client
+```
+
+bun js demo code:
+
+```js
+import { YaoApplication } from "yao-app-client";
+const yao = new YaoApplication(
+  "http://localhost:5099/api/proxy/call",
+  "123456"
+);
+
+/**
+ * Model=> admin.user (用户表)
+ *
+ * Table=> admin_user (用户表)
+ */
+interface admin_user {
+  /**ID */
+  id?: number;
+  /**类型 */
+  type?: "super" | "admin" | "staff" | "user" | "robot";
+  /**邮箱 */
+  email?: string;
+  /**手机号 */
+  mobile?: string;
+  /**登录密码 */
+  password?: string;
+  /**操作密码 */
+  password2nd?: string;
+  /**姓名 */
+  name?: string;
+  /**角色 */
+  role?: any;
+  /**状态 */
+  status?: "enabled" | "disabled";
+}
+// define new user
+const model = yao.Model < admin_user > "admin.user";
+// create model
+const id = await model.Create({
+  name: "kaidi",
+  email: "test@qq.com",
+  mobile: "13956420154",
+  type: "admin",
+  status: "enabled",
+});
+console.log(`new user id:${id}`);
+const models = await model.Get({});
+
+console.log(models);
+```
+
+build standalone binary using bun
+
+```sh
+bun build index.ts --compile --outfile yao-demo
+```
