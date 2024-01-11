@@ -1,0 +1,30 @@
+{
+  "name": "yao-bun-client",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "bun build ./src/index.ts --outdir ./dist --format esm",
+    "build:bun": "bun build ./src/index.ts --outdir ./dist --target bun",
+    "publish": "npm run build:tsc && npm pack && npm publish",
+    "test": "bun tests/yao.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "author": "vincentwwsheng@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "mime": "^4.0.1",
+    "yao-app-ts-types": "^1.0.3"
+  },
+  "files": [
+    "dist",
+    "src/**/*.d.ts",
+    "LICENSE",
+    "package.json"
+  ]
+}
