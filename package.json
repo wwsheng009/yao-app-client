@@ -9,7 +9,7 @@
     "build": "bun build ./src/index.ts --outdir ./dist/esm --minify --format esm & bun run build:declaration",
     "build:bun": "bun build ./src/index.ts --outdir ./dist/bun --target bun",
     "build:tsc": "tsc",
-    "build:rollup": "npm run prebuild && tsc --module commonjs && rollup -c rollup.config.mjs ",
+    "build:rollup": "npm run prebuild && tsc --module commonjs && rollup -c rollup.config.mjs",
     "build:declaration": "tsc --emitDeclarationOnly",
     "publish": "npm pack && npm publish",
     "prebuild": "rimraf dist",

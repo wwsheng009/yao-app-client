@@ -12,7 +12,6 @@ import {
   ArrayMapSet,
   ArrayMapSetMapStr,
 } from "./array";
-import type { YaoProcess } from "./types/process";
 
 
 // export function CheckIsLocalProcessFilePath(name: string) {
@@ -102,33 +101,7 @@ export function getProcess(processor: string): Function | undefined {
 // export function Process(method: `studio.${string}`, ...args: any[]): void;
 // export function Process(method: `services.${string}`, ...args: any[]): void;
 
-/**
- * YAO Process处理器代理
- * @param {string} method 处理器名称
- * @param  {...any} args 参数
- * @returns
- */
-export function Process(method: YaoProcess, ...args: any[]) {
 
-  // const fn = getProcess(method);
-  // if (fn != undefined) {
-  //   return fn(...args)
-  // }
-
-  // if (
-  //   method.startsWith("scripts.") ||
-  //   method.startsWith("studio.") ||
-  //   method.startsWith("services.") ||
-  //   method.startsWith("widgets.")
-  // ) {
-  //   let fname = GetFileName(method);
-  //   if (fname) {
-  //     return CallLocalProcess(fname, method, ...args);
-  //   }
-  // }
-
-  // return RemoteRequest({ type: "Process", method: method, args });
-}
 
 // Convert a hex string to a byte array
 function hexToBytes(hex: string) {
