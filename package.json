@@ -1,6 +1,6 @@
 {
   "name": "yao-app-client",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "type": "module",
   "main": "dist/yao-app-client.umd.js",
   "module": "dist/yao-app-client.es5.js",
@@ -11,7 +11,7 @@
     "build:tsc": "tsc",
     "build:rollup": "npm run prebuild && tsc --module commonjs && rollup -c rollup.config.mjs",
     "build:declaration": "tsc --emitDeclarationOnly",
-    "publish": "npm pack && npm publish",
+    "publish_new": "npm pack && npm publish",
     "prebuild": "rimraf dist",
     "test": "bun tests/yao.ts"
   },
