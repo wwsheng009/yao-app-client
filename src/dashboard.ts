@@ -1,6 +1,6 @@
 import type { YaoQueryParam } from "yao-app-ts-types";
 import { YaoClient } from "./client";
-import type { YaoRecord } from "../types/yao";
+import type { YaoRecord } from "./types/yao";
 
 export default class Dashboard<T> extends YaoClient {
     name: string;

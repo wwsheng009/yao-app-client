@@ -12,7 +12,7 @@ import {
   ArrayMapSet,
   ArrayMapSetMapStr,
 } from "./array";
-import type { YaoProcess } from "../types/process";
+import type { YaoProcess } from "./types/process";
 
 
 // export function CheckIsLocalProcessFilePath(name: string) {

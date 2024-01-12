@@ -1,6 +1,6 @@
 import type { YaoQueryParam } from "yao-app-ts-types";
 import { YaoClient } from "./client";
-import type { ID, UploadFile, YaoRecord } from "../types/yao";
+import type { ID, UploadFile, YaoRecord } from "./types/yao";
 
 export default class List<T> extends YaoClient {
     name: string;

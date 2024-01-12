@@ -1,14 +1,21 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "module": "ESNext",
     "rootDir": "./src",
     "declaration": true,
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     },
-    "typeRoots": ["node_modules/@types"],
+    "typeRoots": [
+      "node_modules/@types",
+      "./src/types"
+    ],
+    "declarationDir": "dist/types",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -16,8 +23,15 @@
     "skipLibCheck": true
   },
   //只有include的文件才会被编译
-  "include": ["src/**/*.ts", "src/**/*.d.ts"],
-  "exclude": ["node_modules", "dist", "tests"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "tests"
+  ],
   // NEW: Options for file/directory watching
   "watchOptions": {
     // Use native file system events for files and directories
@@ -30,7 +44,10 @@
     "synchronousWatchDirectory": true,
     // Finally, two additional settings for reducing the amount of possible
     // files to track  work from these directories
-    "excludeDirectories": ["**/node_modules", "dist"],
+    "excludeDirectories": [
+      "**/node_modules",
+      "dist"
+    ],
     "excludeFiles": []
   }
 }

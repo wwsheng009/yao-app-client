@@ -1,5 +1,5 @@
 import type { YaoQueryParam } from "yao-app-ts-types";
-import type { ID, Paginate, SelectOption, YaoRecord } from "../types/yao";
+import type { ID, Paginate, SelectOption, YaoRecord } from "./types/yao";
 import { YaoClient } from "./client";
 
 export default class Model<T> extends YaoClient {

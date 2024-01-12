@@ -1,4 +1,4 @@
-import type { ReqeustPayload, YaoResponse } from "../types/yao";
+import type { ReqeustPayload, YaoResponse } from "./types/yao";
 import Dashboard from "./dashboard";
 import Form from "./form";
 import { Http } from "./http";
