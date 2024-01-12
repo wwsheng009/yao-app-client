@@ -1,13 +1,17 @@
 # yao-app-client
 
-yao application http client wrapper
+yao application http client wrapper,call the yao application api in browser or the node/nodejs。
 
 ## install
 
 To install dependencies:
 
 ```bash
-bun install
+# bun
+bun install yao-app-client
+
+# or npm
+npm install yao-app-client
 ```
 
 To build:
@@ -15,8 +19,6 @@ To build:
 ```bash
 bun run build
 ```
-
-This project was created using `bun init` in bun v1.0.22. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
 
 ## config
 
@@ -183,7 +185,8 @@ YAO_API_ACCESS_KEY=123456
 
 ```html
 <script type="module">
-  import { YaoApplication } from "./index.js";
+  import { YaoApplication } from "https://cdn.jsdelivr.net/npm/yao-app-client@1.0.6/+esm";
+
   const yao = new YaoApplication("/api/proxy/call", "123456");
   const models = await yao.Model("admin.user").Get({});
   console.log(models);
@@ -247,6 +250,8 @@ const models = await model.Get({});
 
 console.log(models);
 ```
+
+## bun application
 
 build standalone binary using bun
 
