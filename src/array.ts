@@ -171,9 +171,16 @@ interface ArrayTreeOption {
 }
 
 // NewArrayTreeOption 创建配置
-export function NewArrayTreeOption(option: {
-  [key: string]: any;
-}): ArrayTreeOption {
+export function NewArrayTreeOption(
+  option: {
+    [key: string]: any;
+  } = {
+    empty: 0,
+    key: "id",
+    parent: "parent",
+    children: "children",
+  }
+): ArrayTreeOption {
   const newOption: ArrayTreeOption = {
     empty: 0,
     key: "id",

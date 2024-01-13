@@ -1,6 +1,3 @@
-
-// import fs from "fs";
-import path from "path";
 import {
   arrayColumn,
   arrayPluck,
@@ -13,84 +10,62 @@ import {
   ArrayMapSetMapStr,
 } from "./array";
 
-
-// export function CheckIsLocalProcessFilePath(name: string) {
-//   let paths = name.split(".");
-//   //有一些内部的process,比如Concat
-//   if (!paths || !paths.length) {
-//     return false;
-//   }
-//   if (!["scripts"].includes(paths[0])) {
-//     //不代理
-//     return false;
-//   }
-
-//   if (paths.length < 2) {
-//     throw Error("错误的流程名称");
-//   }
-//   const tokens = paths.splice(-1, 1);
-
-//   const method = tokens[0];
-//   const fname = paths.join(path.sep);
-//   // console.log(tokens, paths);
-
-//   let filePath = `dist/app/${fname}.js`;
-//   let fpath = path.resolve(filePath);
-//   if (!fs.existsSync(fpath)) {
-//     filePath = `dist/app/${fname}/index.js`;
-//     fpath = path.resolve(filePath);
-//     if (!fs.existsSync(fpath)) {
-//       return false;
-//     }
-//   }
-//   return { fpath, method };
-// }
-
-
-
 let ProcessList: { [key: string]: Function } = {
-  'utils.fmt.print': (args: any[]) => JSON.stringify(args),
-  'utils.str.concat': (args: any[]) => args.join(""),
-  'utils.str.join': (arg1: any, arg2: any) => arg1.join(arg2),
-  'utils.str.joinpath': (args: any[]) => path.join(...args),
-  'yao.sys.sleep': function (time: number) {
+  "utils.fmt.print": (args: any[]) => JSON.stringify(args),
+  "utils.str.concat": (args: any[]) => args.join(""),
+  "utils.str.join": (arg1: any, arg2: any) => arg1.join(arg2),
+  "utils.str.joinpath": (args: any[]) => args.join("/"),
+  "yao.sys.sleep": function (time: number) {
     var waitTill = new Date(new Date().getTime() + time);
-    while (waitTill > new Date()) { }
-
+    while (waitTill > new Date()) {}
   },
-  'utils.tree.Flatten': processFlatten,
+  "utils.tree.Flatten": processFlatten,
 
+  "utils.arr.Get": processArry,
+  "utils.arr.Indexes": processArry,
+  "utils.arr.Pluck": processArry,
+  "utils.arr.Split": processArry,
+  "utils.arr.Column": processArry,
+  "utils.arr.Keep": processArry,
+  "utils.arr.Tree": processArry,
+  "utils.arr.Unique": processArry,
+  "utils.arr.MapSet": processArry,
 
-}
+  "utils.map.Keys": processMap,
+  "utils.map.Values": processMap,
+  "utils.map.Array": processMap,
+  "utils.map.Get": processMap,
+  "utils.map.Set": processMap,
+  "utils.map.Del": processMap,
+  "utils.map.DelMany": processMap,
+};
 export function getProcess(processor: string): Function | undefined {
   const method = processor.toLocaleLowerCase();
-  const fn = ProcessList[method]
+  const fn = ProcessList[method];
   if (fn != null) {
-    return fn
+    return fn;
   }
   // encoding
   if (method.startsWith("encoding.")) {
     return processEncoding;
   }
-  // encoding
+  // now
   if (method.startsWith("utils.now.")) {
     return processTime;
   }
 
   // Map
-  if (method.startsWith("utils.map") || method.startsWith("xiang.helper.map")) {
-    return processMap;
-  }
+  // if (method.startsWith("utils.map") || method.startsWith("xiang.helper.map")) {
+  //   return processMap;
+  // }
   // Array
-  if (
-    method.startsWith("utils.arr") ||
-    method.startsWith("xiang.helper.array")
-  ) {
-    return processArry;
-  }
-
+  // if (
+  //   method.startsWith("utils.arr") ||
+  //   method.startsWith("xiang.helper.array")
+  // ) {
+  //   return processArry;
+  // }
 }
-
 
 // export function Process<T>(method: `models.${string}.Get`, QueryParam: YaoQueryParam.QueryParam): Promise<Array<T>>;
 // export function Process<T>(method: `models.${string}.Find`, id: string | number, QueryParam: YaoQueryParam.QueryParam): Promise<T>;
@@ -100,8 +75,6 @@ export function getProcess(processor: string): Function | undefined {
 // export function Process(method: `scripts.${string}`, ...args: any[]): void;
 // export function Process(method: `studio.${string}`, ...args: any[]): void;
 // export function Process(method: `services.${string}`, ...args: any[]): void;
-
-
 
 // Convert a hex string to a byte array
 function hexToBytes(hex: string) {
@@ -162,13 +135,11 @@ function processTime(method: string, ...args: any[]) {
 
   if ("utils.now.time" == process) {
     let dateBj = new Date();
-    const offset = dateBj.getTimezoneOffset();
-    dateBj = new Date(dateBj.getTime() - offset * 60 * 1000);
-    return dateBj.toLocaleTimeString();
+    return dateBj.toLocaleTimeString("en-US", { hour12: false });
   }
 
   if ("utils.now.timestamp" == process) {
-    return new Date().getTime() / 1000;
+    return Math.floor(Date.now() / 1000);
   }
   if ("utils.now.timestampms" == process) {
     return new Date().getTime();
@@ -214,6 +185,13 @@ function processMap(method: string, ...args: any[]) {
   if (["xiang.helper.mapvalues", "utils.map.values"].includes(process)) {
     return Object.values(args[0]);
   }
+
+  if (["utils.map.merge"].includes(process)) {
+    let obj = {};
+    Object.assign(obj, args[0], args[1]);
+    return obj;
+  }
+
   if (["xiang.helper.maptoarray", "utils.map.array"].includes(process)) {
     let res = [] as { key: string; value: object }[];
     for (const key in args[0]) {
@@ -301,8 +279,6 @@ function processArry(method: string, ...args: any[]) {
     }
     return args[0];
   }
-
-  // return RemoteRequest({ type: "Process", method: method, args });
 }
 
 // ProcessFlatten utils.tree.Flatten cast to array
