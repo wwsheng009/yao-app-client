@@ -14,7 +14,7 @@ export default class Model<T> extends YaoClient {
      * @param query 
      * @returns 
      */
-    async Find(id: number, query: YaoQueryParam.QueryParam): Promise<T> {
+    async Find(id: ID, query: YaoQueryParam.QueryParam): Promise<T> {
         return this.client.Process<T>(`models.${this.name}.Find`, id, query)
     }
     /**

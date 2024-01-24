@@ -298,7 +298,12 @@ function processArry(method: string, ...args: any[]) {
   }
 }
 
-// ProcessFlatten utils.tree.Flatten cast to array
+
+/**
+ * flatten a nested object to array of object
+ * @param args 
+ * @returns 
+ */
 function processFlatten(...args: any[]): any {
   if (args.length < 1) {
     throw new Error("参数错误");
@@ -317,7 +322,13 @@ function processFlatten(...args: any[]): any {
 
   return flatten(array, option, null);
 }
-
+/**
+ * flatten a nested object to array of object
+ * @param array 
+ * @param option 
+ * @param id 
+ * @returns 
+ */
 function flatten(array: any[], option: { [key: string]: any }, id: any): any[] {
   const parent: string = `${option.parent}`;
   const primary: string = `${option.primary}`;
