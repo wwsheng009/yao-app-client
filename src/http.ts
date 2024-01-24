@@ -2,8 +2,7 @@ import { YaoApplication } from "./yao";
 export type HttpHeaders = object | object[];
 
 /**
- * 使用 http 对象发送 HTTP 请求，参数表与返回值与 http.* 处理器一致
- * 虽然可以直接使用fetch，但是在参数与文件处理上比较麻烦
+ * 使用 http 对象发送 HTTP 请求，注意这些处理器是在服务器端的请求
  */
 export class Http {
   //   client: null as unknown as YaoClient,

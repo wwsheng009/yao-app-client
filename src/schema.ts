@@ -1,5 +1,3 @@
-import type { YaoQueryParam } from "yao-app-ts-types";
-import type { ID, Paginate, SelectOption, YaoRecord } from "./types/yao";
 import { YaoClient } from "./client";
 
 // /**`[<数据库名称>]`|-|创建一个数据库(或 Schema)|*/
