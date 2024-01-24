@@ -38,6 +38,12 @@ let ProcessList: { [key: string]: Function } = {
   "utils.map.Set": processMap,
   "utils.map.Del": processMap,
   "utils.map.DelMany": processMap,
+  "encoding.hex.encode":processEncoding,
+  "encoding.hex.decode":processEncoding,
+  "encoding.json.encode":processEncoding,
+  "encoding.json.decode":processEncoding,
+  "encoding.base64.encode":processEncoding,
+  "encoding.base64.decode":processEncoding
 };
 export function getProcess(processor: string): Function | undefined {
   const method = processor.toLocaleLowerCase();
@@ -45,36 +51,11 @@ export function getProcess(processor: string): Function | undefined {
   if (fn != null) {
     return fn;
   }
-  // encoding
-  if (method.startsWith("encoding.")) {
-    return processEncoding;
-  }
   // now
   if (method.startsWith("utils.now.")) {
     return processTime;
   }
-
-  // Map
-  // if (method.startsWith("utils.map") || method.startsWith("xiang.helper.map")) {
-  //   return processMap;
-  // }
-  // Array
-  // if (
-  //   method.startsWith("utils.arr") ||
-  //   method.startsWith("xiang.helper.array")
-  // ) {
-  //   return processArry;
-  // }
 }
-
-// export function Process<T>(method: `models.${string}.Get`, QueryParam: YaoQueryParam.QueryParam): Promise<Array<T>>;
-// export function Process<T>(method: `models.${string}.Find`, id: string | number, QueryParam: YaoQueryParam.QueryParam): Promise<T>;
-// export function Process<T>(method: `models.${string}.Paginate`, QueryParam: YaoQueryParam.QueryParam, page: number, pagesize: number): Promise<Paginate<T>>;
-
-// export function Process(method: "utils.app.Ping"): { enging: string, version: string };
-// export function Process(method: `scripts.${string}`, ...args: any[]): void;
-// export function Process(method: `studio.${string}`, ...args: any[]): void;
-// export function Process(method: `services.${string}`, ...args: any[]): void;
 
 // Convert a hex string to a byte array
 function hexToBytes(hex: string) {
@@ -109,15 +90,52 @@ function processEncoding(method: string, ...args: any[]) {
     return JSON.parse(args[0]);
   }
   if ("encoding.base64.encode" == process) {
-    let buff = Buffer.from(args[0]);
-    return buff.toString("base64");
+    return toBase64(args[0]);
   }
   if ("encoding.base64.decode" == process) {
-    let buff = Buffer.from(args[0], "base64");
-    return buff.toString();
+    return fromBase64(args[0]);
   }
   // return RemoteRequest({ type: "Process", method: method, args });
 }
+
+function toBase64(input:Uint8Array):string {
+  if (typeof window === "undefined") {
+      // Node.js environment
+      // Accepts a string or a buffer
+      return Buffer.from(input).toString('base64');
+  } else {
+      // Browser environment
+      // Checks if input is a Uint8Array (or similar), converts to a string if it is
+      if (input instanceof Uint8Array) {
+          var binary = '';
+          for (var i = 0; i < input.byteLength; i++) {
+              binary += String.fromCharCode(input[i]);
+          }
+          return window.btoa(binary);
+      } else {
+          // Assumes input is a string if not a byte array
+          return window.btoa(input);
+      }
+  }
+}
+
+function fromBase64(str:string):Uint8Array {
+  if (typeof window === "undefined") {
+      // Node.js environment
+      return Buffer.from(str, 'base64');
+  } else {
+      // Browser environment
+      // Decode Base64 to a binary string
+      var binaryString = window.atob(str);
+      var len = binaryString.length;
+      var bytes = new Uint8Array(len);
+      for (var i = 0; i < len; i++) {
+          bytes[i] = binaryString.charCodeAt(i);
+      }
+      return bytes;
+  }
+}
+
 function processTime(method: string, ...args: any[]) {
   const process = method.toLowerCase();
   if ("utils.now.date" == process) {
@@ -144,7 +162,6 @@ function processTime(method: string, ...args: any[]) {
   if ("utils.now.timestampms" == process) {
     return new Date().getTime();
   }
-  // return RemoteRequest({ type: "Process", method: method, args });
 }
 
 function processMap(method: string, ...args: any[]) {
